@@ -3,15 +3,14 @@ package data
 import (
 	"context"
 	"fmt"
-	"log"
 
 	// "time"
 
+	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/initializers"
 	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Task = model.Task
@@ -23,34 +22,18 @@ type Task = model.Task
 // 	{ID: "3", Title: "Task 3", Description: "Third task", DueDate: time.Now().AddDate(0, 0, 2), Status: "Completed"},
 // }
 
-
-func Init() {
-	// Set client options
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
-	
-	// Connect to MongoDB
-	Client, err := mongo.Connect(context.TODO(), clientOptions)
-	
-	if err != nil {
-		log.Fatal(err)
-	}
-	
-	// Check the connection
-	err = Client.Ping(context.TODO(), nil)
-	
-	if err != nil {
-		log.Fatal(err)
-	}
-	
-	fmt.Println("Connected to MongoDB!")
-	
-	
-}
 var collection *mongo.Collection
-collection = Client.Database("test").Collection("tasks")
+
+func getCollection() *mongo.Collection {
+	if collection == nil {
+		collection = initializers.Client.Database("test").Collection("tasks")
+	}
+	return collection
+}
 
 // GetTasks returns a slice of tasks.
 func GetTasks() ([]Task, error) {
+	collection := getCollection()
 
 	var tasks []Task
 	cur, err := collection.Find(context.TODO(), bson.D{})
@@ -77,6 +60,7 @@ func GetTasks() ([]Task, error) {
 // GetTaskById retrieves a task from the tasks slice based on the provided ID.
 // If a task with the given ID is found, it is returned. Otherwise, an empty task is returned.
 func GetTaskById(id string) (Task, error) {
+	collection := getCollection()
 	var task Task
 	objectId, err := primitive.ObjectIDFromHex(id)
 
@@ -98,6 +82,7 @@ func GetTaskById(id string) (Task, error) {
 // CreateTask creates a new task and adds it to the list of tasks.
 // It takes a Task object as a parameter and returns the created task.
 func CreateTask(task Task) (Task, error) {
+	collection := getCollection()
 	_, err := collection.InsertOne(context.TODO(), task)
 	if err != nil {
 		return Task{}, err
@@ -110,6 +95,7 @@ func CreateTask(task Task) (Task, error) {
 // It replaces the existing task with the provided task and returns the updated task.
 // If no task with the given ID is found, it returns an empty Task struct.
 func UpdateTask(task Task, id string) (Task, error) {
+	collection := getCollection()
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return Task{}, err
@@ -137,6 +123,7 @@ func UpdateTask(task Task, id string) (Task, error) {
 // DeleteTask deletes a task with the specified ID from the tasks slice.
 // It returns the deleted task if found, otherwise it returns an empty task.
 func DeleteTask(id string) (Task, error) {
+	collection := getCollection()
 	objectId, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {
