@@ -60,6 +60,8 @@ To use this API, users need to have Go (latest version), MongoDB, and the Gin we
 
 The main data model in this API is the Task model, which includes fields like ID, title, description, due date, and status.
 
+The other data model is User, which include fields like ID, email, password
+
 ## Error Handling
 
 The API provides meaningful error messages when something goes wrong, like when a user tries to retrieve a task that doesn't exist or when there's a problem connecting to the database.
@@ -75,6 +77,12 @@ Full URL: `http://localhost:8080/tasks`
 #### Parameters
 
 None
+
+#### Request Headers
+
+- `Authorization` (string, mandatory): Bearer token for authorization
+
+  Example: `Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV5b2JkZXJlc2VAZ21haWwuY29tIiwiaWQiOiI2NmI0YjlkNjgxYzJhZjcwYjliYjAzOTIiLCJyb2xlIjoiYWRtaW4ifQ.lT87rkCYkAixZSStdDqrweuZbfmbjVZdvx0YzGsUo4I`
 
 #### Response
 
@@ -118,6 +126,12 @@ Full URL: `http://localhost:8080/tasks/{id}`
 
 - `id` (integer): The ID of the task to fetch
 
+#### Request Headers
+
+- `Authorization` (string, mandatory): Bearer token for authorization
+
+  Example: `Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV5b2JkZXJlc2VAZ21haWwuY29tIiwiaWQiOiI2NmI0YjlkNjgxYzJhZjcwYjliYjAzOTIiLCJyb2xlIjoiYWRtaW4ifQ.lT87rkCYkAixZSStdDqrweuZbfmbjVZdvx0YzGsUo4I`
+
 #### Response
 
 - `200 OK` on success
@@ -150,6 +164,12 @@ Full URL: `http://localhost:8080/tasks`
 - `description` (string): The description of the task
 - `due_date` (string): The due date of the task
 - `status` (string): The status of the task
+
+#### Request Headers
+
+- `Authorization` (string, mandatory): Bearer token for authorization
+
+  Example: `Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV5b2JkZXJlc2VAZ21haWwuY29tIiwiaWQiOiI2NmI0YjlkNjgxYzJhZjcwYjliYjAzOTIiLCJyb2xlIjoiYWRtaW4ifQ.lT87rkCYkAixZSStdDqrweuZbfmbjVZdvx0YzGsUo4I`
 
 Request example:
 
@@ -211,6 +231,12 @@ Request example:
 }
 ```
 
+#### Request Headers
+
+- `Authorization` (string, mandatory): Bearer token for authorization
+
+  Example: `Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV5b2JkZXJlc2VAZ21haWwuY29tIiwiaWQiOiI2NmI0YjlkNjgxYzJhZjcwYjliYjAzOTIiLCJyb2xlIjoiYWRtaW4ifQ.lT87rkCYkAixZSStdDqrweuZbfmbjVZdvx0YzGsUo4I`
+
 #### Response
 
 - `200 OK` on success
@@ -244,6 +270,12 @@ Full URL: `http://localhost:8080/tasks/{id}`
 #### Parameters
 
 - `id` (integer): The ID of the task to delete
+
+#### Request Headers
+
+- `Authorization` (string, mandatory): Bearer token for authorization
+
+  Example: `Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV5b2JkZXJlc2VAZ21haWwuY29tIiwiaWQiOiI2NmI0YjlkNjgxYzJhZjcwYjliYjAzOTIiLCJyb2xlIjoiYWRtaW4ifQ.lT87rkCYkAixZSStdDqrweuZbfmbjVZdvx0YzGsUo4I`
 
 #### Response
 
@@ -358,6 +390,12 @@ Request example:
 ```json
 {}
 ```
+
+#### Request Headers
+
+- `Authorization` (string, mandatory): Bearer token for authorization
+
+  Example: `Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV5b2JkZXJlc2VAZ21haWwuY29tIiwiaWQiOiI2NmI0YjlkNjgxYzJhZjcwYjliYjAzOTIiLCJyb2xlIjoiYWRtaW4ifQ.lT87rkCYkAixZSStdDqrweuZbfmbjVZdvx0YzGsUo4I`
 
 #### Response
 

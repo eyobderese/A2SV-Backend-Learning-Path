@@ -10,11 +10,11 @@ func SetupRouter() *gin.Engine {
 
 	router := gin.Default()
 
-	router.GET("/tasks", controller.GetTasks)
-	router.GET("/tasks/:id", controller.GetTaskById)
-	router.POST("/tasks", controller.CreateTask)
-	router.PUT("/tasks/:id", controller.UpdateTask)
-	router.DELETE("/tasks/:id", controller.DeleteTask)
+	router.GET("/tasks", middleware.AuthMiddleware(), controller.GetTasks)
+	router.GET("/tasks/:id", middleware.AuthMiddleware(), controller.GetTaskById)
+	router.POST("/tasks", middleware.AuthMiddleware(), controller.CreateTask)
+	router.PUT("/tasks/:id", middleware.AuthMiddleware(), controller.UpdateTask)
+	router.DELETE("/tasks/:id", middleware.AuthMiddleware(), controller.DeleteTask)
 	router.POST("/register", controller.SignUp)
 	router.POST("/login", controller.LogIn)
 	router.PUT("/promote/:id", middleware.AdminMiddleware(), controller.Promot)
