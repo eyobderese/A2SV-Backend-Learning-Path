@@ -15,7 +15,7 @@ func NewTaskRouter(db mongo.Database, group *gin.RouterGroup) {
 	tuc := usecase.NewTaskUsecase(tr)
 	tc := controller.NewTaskController(tuc)
 
-	group.Use(infrastructure.AuthMiddleware())
+	group.Use(infrastructure.AuthMiddleware("admin"))
 
 	group.GET("/", tc.GetTasks)
 	group.GET("/:id", tc.GetTaskById)
@@ -31,5 +31,5 @@ func NewUserRouter(db mongo.Database, group *gin.RouterGroup) {
 
 	group.POST("/register", uc.SignUp)
 	group.POST("/login", uc.LoginUser)
-	group.PUT("/promote/:id", infrastructure.AdminMiddleware(), uc.PromoteUser)
+	group.PUT("/promote/:id", infrastructure.AuthMiddleware("admin"), uc.PromoteUser)
 }

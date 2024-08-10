@@ -6,6 +6,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+var jwtSecret = []byte("your_jwt_secret")
+
 func TotokenParser(authPartToken string) (jwt.MapClaims, error) {
 	token, err := jwt.Parse(authPartToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -29,7 +31,8 @@ func TotokenParser(authPartToken string) (jwt.MapClaims, error) {
 	return claims, nil
 }
 
-func TokenGeneretor(jwtMapClaims jwt.Claims) (string, error) {
+func TokenGeneretor(claims map[string]interface{}) (string, error) {
+	jwtMapClaims := jwt.MapClaims(claims)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwtMapClaims)
 
 	jwtToken, err := token.SignedString(jwtSecret)

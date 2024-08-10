@@ -3,15 +3,12 @@ package repositories
 import (
 	"context"
 
-	"github.com/dgrijalva/jwt-go"
 	infrastructure "github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/Infrastructure"
 	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
-
-var jwtSecret = []byte("your_jwt_secret")
 
 type User = domain.User
 
@@ -74,11 +71,13 @@ func (ur *userRepository) LoginUser(user User) (string, error) {
 
 	// generet the jwt token
 
-	token, err := infrastructure.TokenGeneretor(jwt.MapClaims{
-		"id":    newUser.ID,
+	claims := map[string]interface{}{
+		"id":    newUser.ID.Hex(), // Assuming ID is of type primitive.ObjectID
 		"email": user.Email,
 		"role":  newUser.Role,
-	})
+	}
+
+	token, err := infrastructure.TokenGeneretor(claims)
 
 	// return the token
 	return token, err

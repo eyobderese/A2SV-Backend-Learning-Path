@@ -8,9 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var jwtSecret = []byte("your_jwt_secret")
+func stringInSlice(str interface{}, list []string) bool {
+	for _, v := range list {
+		if v == str {
+			return true
+		}
+	}
+	return false
+}
 
-func AuthMiddleware() gin.HandlerFunc {
+func AuthMiddleware(roles ...string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		// JWT validation logic
@@ -32,6 +39,13 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		if err != nil {
 			c.JSON(401, gin.H{"error": "Invalid JWT claims"})
+			c.Abort()
+			return
+		}
+
+		if len(roles) != 0 && !stringInSlice(claims["role"], roles) {
+
+			c.JSON(401, gin.H{"error": "Unauthorized"})
 			c.Abort()
 			return
 		}
