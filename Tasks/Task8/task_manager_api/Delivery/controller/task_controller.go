@@ -11,7 +11,7 @@ type taskController struct {
 	taskUsecase domain.TaskUsecase
 }
 
-func NewTaskController(taskUsecase domain.TaskUsecase) domain.Taskcontroller {
+func NewTaskController(taskUsecase domain.TaskUsecase) *taskController {
 	return &taskController{taskUsecase: taskUsecase}
 
 }

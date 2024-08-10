@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/domain"
+	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/usecase"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -16,7 +17,7 @@ type taskRepository struct {
 	collectionName string
 }
 
-func NewTaskRepository(db mongo.Database, collectionName string) domain.TaskRepository {
+func NewTaskRepository(db mongo.Database, collectionName string) usecase.TaskRepository {
 
 	return &taskRepository{db: db, collectionName: collectionName}
 }

@@ -5,6 +5,7 @@ import (
 
 	infrastructure "github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/Infrastructure"
 	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/domain"
+	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/usecase"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -17,7 +18,7 @@ type userRepository struct {
 	collectionName string
 }
 
-func NewUserRepository(db mongo.Database, collectionName string) domain.UserRepository {
+func NewUserRepository(db mongo.Database, collectionName string) usecase.UserRepository {
 	return &userRepository{db: db, collectionName: collectionName}
 }
 

@@ -19,14 +19,6 @@ const (
 	TaskCollection = "tasks"
 )
 
-type Taskcontroller interface {
-	GetTasks(c *gin.Context)
-	GetTaskById(c *gin.Context)
-	CreateTask(c *gin.Context)
-	UpdateTask(c *gin.Context)
-	DeleteTask(c *gin.Context)
-}
-
 type TaskUsecase interface {
 	GetTasks() ([]Task, error)
 	GetTaskById(id string) (Task, error)
@@ -35,29 +27,11 @@ type TaskUsecase interface {
 	DeleteTask(id string) error
 }
 
-type TaskRepository interface {
-	GetTasks() ([]Task, error)
-	GetTaskById(id string) (Task, error)
-	CreateTask(task Task) error
-	UpdateTask(task Task, id string) (Task, error)
-	DeleteTask(id string) error
-}
-
-
-
-
-
 type User struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	Email    string             `json:"email" `
 	Password string             `json:"password"`
 	Role     string             `json:"role"`
-}
-
-type UserRepository interface {
-	CreateUser(user User) (User, error)
-	LoginUser(user User) (string, error)
-	PromoteUser(userId string) (User, error)
 }
 
 type UserUseCase interface {

@@ -5,25 +5,30 @@ import (
 	// "time"
 
 	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/domain"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Task = domain.Task
 
 // Mock data for tasks
-// var tasks = []Task{
-// 	{ID: "1", Title: "Task 1", Description: "First task", DueDate: time.Now(), Status: "Pending"},
-// 	{ID: "2", Title: "Task 2", Description: "Second task", DueDate: time.Now().AddDate(0, 0, 1), Status: "In Progress"},
-// 	{ID: "3", Title: "Task 3", Description: "Third task", DueDate: time.Now().AddDate(0, 0, 2), Status: "Completed"},
-// }
-
-var collection *mongo.Collection
-
-type taskUsecase struct {
-	taskRepository domain.TaskRepository
+//
+//	var tasks = []Task{
+//		{ID: "1", Title: "Task 1", Description: "First task", DueDate: time.Now(), Status: "Pending"},
+//		{ID: "2", Title: "Task 2", Description: "Second task", DueDate: time.Now().AddDate(0, 0, 1), Status: "In Progress"},
+//		{ID: "3", Title: "Task 3", Description: "Third task", DueDate: time.Now().AddDate(0, 0, 2), Status: "Completed"},
+//	}
+type TaskRepository interface {
+	GetTasks() ([]Task, error)
+	GetTaskById(id string) (Task, error)
+	CreateTask(task Task) error
+	UpdateTask(task Task, id string) (Task, error)
+	DeleteTask(id string) error
 }
 
-func NewTaskUsecase(taskRepository domain.TaskRepository) domain.TaskUsecase {
+type taskUsecase struct {
+	taskRepository TaskRepository
+}
+
+func NewTaskUsecase(taskRepository TaskRepository) domain.TaskUsecase {
 	return &taskUsecase{taskRepository: taskRepository}
 }
 

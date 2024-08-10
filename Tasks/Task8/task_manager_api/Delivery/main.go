@@ -35,7 +35,7 @@ func main() {
 	fmt.Println("Connected to MongoDB!")
 	GeneralRouter := gin.Default()
 	router.NewTaskRouter(*client.Database("test"), GeneralRouter.Group("tasks"))
-	router.NewUserRouter(*client.Database("test"), GeneralRouter.Group("user"))
+	router.NewUserRouter(*client.Database("test"), GeneralRouter.Group(""))
 	GeneralRouter.Run("localhost:8080")
 
 }

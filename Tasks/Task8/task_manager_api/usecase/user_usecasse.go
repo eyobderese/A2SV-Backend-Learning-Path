@@ -6,11 +6,17 @@ import (
 
 type User = domain.User
 
-type userUseCase struct {
-	userRepository domain.UserRepository
+type UserRepository interface {
+	CreateUser(user User) (User, error)
+	LoginUser(user User) (string, error)
+	PromoteUser(userId string) (User, error)
 }
 
-func NewUserUsecase(userRepository domain.UserRepository) domain.UserUseCase {
+type userUseCase struct {
+	userRepository UserRepository
+}
+
+func NewUserUsecase(userRepository UserRepository) domain.UserUseCase {
 	return &userUseCase{userRepository: userRepository}
 }
 
