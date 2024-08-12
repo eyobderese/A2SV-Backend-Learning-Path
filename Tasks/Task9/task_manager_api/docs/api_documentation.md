@@ -420,4 +420,44 @@ Request example:
 }
 ```
 
-## Test
+# API Testing Guide
+
+This guide provides instructions on how to run tests for our API.
+
+## Prerequisites
+
+- Go installed on your machine
+- Access to the source code of the API
+
+## Running the Tests
+
+1. Open a terminal.
+
+2. Navigate to the `test` directory in the API source code:
+
+   ```bash
+   cd path/to/api/test
+   ```
+
+   Replace `path/to/api/test` with the actual path to the `test` directory.
+
+3. Run the tests:
+
+   ```bash
+   go test
+   ```
+
+   This command runs all tests in the `test` directory. If you want to run a specific test, you can use the `-run` flag followed by the name of the test:
+
+   ```bash
+   go test -run TestName
+   ```
+
+   Replace `TestName` with the name of the test you want to run.
+
+## Understanding the Test Results
+
+The `go test` command prints the results of the tests to the terminal. If a test passes, you'll see output like this:
+PASS: TestName
+
+In case of a failure, `go test` also prints more information about the failure, such as the line of code that caused the failure and a stack trace.
