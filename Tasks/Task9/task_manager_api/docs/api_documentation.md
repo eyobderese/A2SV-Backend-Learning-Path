@@ -22,6 +22,7 @@
 4. [Data Models](#data-models)
 5. [Error Handling](#error-handling)
 6. [Autorization][#authorization]
+7. [Testing][#testing]
 
 ---
 
@@ -418,3 +419,5 @@ Request example:
   "error": "Internal server error"
 }
 ```
+
+## Test
