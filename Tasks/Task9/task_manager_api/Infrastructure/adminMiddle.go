@@ -5,19 +5,11 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
-func stringInSlice(str interface{}, list []string) bool {
-	for _, v := range list {
-		if v == str {
-			return true
-		}
-	}
-	return false
-}
-
-func AuthMiddleware(roles ...string) gin.HandlerFunc {
+func AdminMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		// JWT validation logic
@@ -35,15 +27,28 @@ func AuthMiddleware(roles ...string) gin.HandlerFunc {
 			return
 		}
 
-		claims, err := NewJwtService().TotokenParser(authParts[1])
+		token, err := jwt.Parse(authParts[1], func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			}
 
-		if err != nil {
-			c.JSON(401, gin.H{"error": "Invalid JWT claims"})
+			return jwtSecret, nil
+		})
+
+		if err != nil || !token.Valid {
+			c.JSON(401, gin.H{"error": "Invalid JWT"})
 			c.Abort()
 			return
 		}
 
-		if len(roles) != 0 && !stringInSlice(claims["role"], roles) {
+		claims, ok := token.Claims.(jwt.MapClaims)
+
+		if !ok {
+			c.JSON(401, gin.H{"error": "Invalid JWT claims"})
+			c.Abort()
+			return
+		}
+		if claims["role"] != "admin" {
 
 			c.JSON(401, gin.H{"error": "Unauthorized"})
 			c.Abort()
