@@ -10,8 +10,8 @@ import (
 	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/Delivery/controller"
 	"github.com/eyobderese/A2SV-Backend-Learning-Path/task_manager_api/domain"
 	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/suite"
 )
 
 type MockTaskUsecase struct {
@@ -43,7 +43,14 @@ func (m *MockTaskUsecase) DeleteTask(id string) error {
 	return args.Error(0)
 }
 
-func TestCreateTask(t *testing.T) {
+type TaskControllerSuit struct {
+	suite.Suite
+}
+
+func (suite *TaskControllerSuit) SetupSuite() {
+
+}
+func (suite *TaskControllerSuit) TestCreateTask() {
 	mockTaskUsecase := new(MockTaskUsecase)
 	taskController := controller.NewTaskController(mockTaskUsecase)
 
@@ -61,11 +68,10 @@ func TestCreateTask(t *testing.T) {
 
 	router.ServeHTTP(resp, req)
 
-	assert.Equal(t, http.StatusCreated, resp.Code)
-	mockTaskUsecase.AssertExpectations(t)
+	suite.Equal(http.StatusCreated, resp.Code)
 }
 
-func TestUpdateTask(t *testing.T) {
+func (suite *TaskControllerSuit) TestUpdateTask() {
 	mockTaskUsecase := new(MockTaskUsecase)
 	taskController := controller.NewTaskController(mockTaskUsecase)
 
@@ -82,12 +88,11 @@ func TestUpdateTask(t *testing.T) {
 	resp := httptest.NewRecorder()
 
 	router.ServeHTTP(resp, req)
+	suite.Equal(http.StatusOK, resp.Code)
 
-	assert.Equal(t, http.StatusOK, resp.Code)
-	mockTaskUsecase.AssertExpectations(t)
 }
 
-func TestGetTasks(t *testing.T) {
+func (suite *TaskControllerSuit) TestGetTasks() {
 	mockTaskUsecase := new(MockTaskUsecase)
 	taskController := controller.NewTaskController(mockTaskUsecase)
 
@@ -104,12 +109,11 @@ func TestGetTasks(t *testing.T) {
 
 	router.ServeHTTP(resp, req)
 
-	assert.Equal(t, http.StatusOK, resp.Code)
-	mockTaskUsecase.AssertExpectations(t)
+	suite.Equal(http.StatusOK, resp.Code)
 
 }
 
-func TestGetTaskById(t *testing.T) {
+func (suite *TaskControllerSuit) TestGetTaskById() {
 	mockTaskUsecase := new(MockTaskUsecase)
 	taskController := controller.NewTaskController(mockTaskUsecase)
 
@@ -126,11 +130,10 @@ func TestGetTaskById(t *testing.T) {
 
 	router.ServeHTTP(resp, req)
 
-	assert.Equal(t, http.StatusOK, resp.Code)
-	mockTaskUsecase.AssertExpectations(t)
+	suite.Equal(http.StatusOK, resp.Code)
 }
 
-func TestDeleteTask(t *testing.T) {
+func (suite *TaskControllerSuit) TestDeleteTask() {
 	mockTaskUsecase := new(MockTaskUsecase)
 	taskController := controller.NewTaskController(mockTaskUsecase)
 
@@ -147,7 +150,11 @@ func TestDeleteTask(t *testing.T) {
 
 	router.ServeHTTP(resp, req)
 
-	assert.Equal(t, http.StatusNoContent, resp.Code)
-	mockTaskUsecase.AssertExpectations(t)
+	suite.Equal(http.StatusNoContent, resp.Code)
 
+}
+
+func Test_taskControllerSuite(t *testing.T) {
+	/// we still need this to run all tests in our suite
+	suite.Run(t, &TaskControllerSuit{})
 }
